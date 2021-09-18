@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "94086995576",
+    "project_id": "quizlet-63d29",
+    "storage_bucket": "quizlet-63d29.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:94086995576:android:697b6776b60d3bc4bb578d",
+        "android_client_info": {
+          "package_name": "com.example.pinnacle"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "94086995576-qvirk32gn4mugi7cru79f5q3cfd2hk73.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.pinnacle",
+            "certificate_hash": "27bc3e893d8d0db06c918fffb899703da5ef5592"
+          }
+        },
+        {
+          "client_id": "94086995576-4qbaq8ah45ei4p43piq2h7kn0uggk5f8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPNKg9xk1yVLgaWy9t97sjjZkib6XZ07w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "94086995576-4qbaq8ah45ei4p43piq2h7kn0uggk5f8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

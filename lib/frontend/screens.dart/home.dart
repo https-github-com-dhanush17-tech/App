@@ -1,14 +1,22 @@
+//@dart=2.9
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:pinnacle/constants.dart';
+import 'package:pinnacle/frontend/screens.dart/quiz.dart';
+import 'package:pinnacle/frontend/screens.dart/scan_upload.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
-
+  String uid;
+  Home({this.uid});
   @override
   _HomeState createState() => _HomeState();
 }
@@ -126,6 +134,70 @@ class _HomeState extends State<Home> {
                   ),
                 ),
               ),
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(left: 10.0, right: 10),
+                  child: Container(
+                      alignment: Alignment.center,
+                      height: 120,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: secondaryBackgroundColor),
+                      child: Column(children: [
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Padding(
+                            padding: const EdgeInsets.only(left: 10.0),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text("Generate Questions",
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 16,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600)),
+                            )),
+                        SizedBox(height: 10),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (builder) => ScanDocument()));
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 10, right: 10),
+                            child: Container(
+                              height: 50,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(16),
+                                  color: Colors.white),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Align(
+                                    alignment: Alignment.center,
+                                    child: Text("Start Scanning ",
+                                        style: GoogleFonts.poppins(
+                                            color: Colors.grey,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w400)),
+                                  ),
+                                  Icon(Icons.arrow_forward_rounded,
+                                      color: Colors.grey)
+                                ],
+                              ),
+                            ),
+                          ),
+                        )
+                      ]))),
               SizedBox(
                 height: 20,
               ),
