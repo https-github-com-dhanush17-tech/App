@@ -9,14 +9,19 @@ class QuestionModel {
   QuestionModel({this.question, this.answer, this.options}) {
     options.add(answer);
     options.shuffle();
-    for (int i = 0; i < options.length; i++) {
-      if (options[i] == answer) {
-        answerIndex = i;
+    if (options.length < 4) {
+      for (int i = 0; i < options.length; i++) {
+        if (options[i] == answer) {
+          answerIndex = i;
+        }
       }
-    }
+    } else
+      for (int i = 0; i < 4; i++) {
+        if (options[i] == answer) {
+          answerIndex = i;
+        }
+      }
   }
-
-
 
   Map<String, dynamic> toJson() {
     return {

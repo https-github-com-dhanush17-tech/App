@@ -26,6 +26,15 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  TextEditingController _code = TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _code = TextEditingController();
+    questions.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -51,13 +60,22 @@ class _HomeState extends State<Home> {
                         height: 1.7,
                         fontWeight: FontWeight.w400),
                   ),
-                  Text(
-                    " Dhanush!",
-                    style: GoogleFonts.poppins(
-                        color: primaryHeadingColor,
-                        fontSize: 17,
-                        fontWeight: FontWeight.w500),
-                  ),
+                  StreamBuilder(
+                      stream: Firestore.instance
+                          .collection("users")
+                          .document(widget.uid)
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        return snapshot.data == null
+                            ? Container()
+                            : Text(
+                                " ${snapshot.data["name"]}!",
+                                style: GoogleFonts.poppins(
+                                    color: primaryHeadingColor,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w500),
+                              );
+                      }),
                 ],
               ),
               SizedBox(
@@ -124,11 +142,58 @@ class _HomeState extends State<Home> {
                               ),
                               Align(
                                 alignment: Alignment.centerLeft,
-                                child: Text("Enter the quiz code",
-                                    style: GoogleFonts.poppins(
-                                        color: Colors.grey,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w400)),
+                                child: Container(
+                                    width:
+                                        MediaQuery.of(context).size.width - 100,
+                                    height: 30,
+                                    child: TextFormField(
+                                      controller: _code,
+                                      decoration: InputDecoration(
+                                        hintText: "Enter the quiz code",
+                                        hintStyle: GoogleFonts.poppins(
+                                            color: Colors.grey,
+                                            height: 0,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                      onFieldSubmitted: (val) {
+                                        Firestore.instance
+                                            .collection("quiz")
+                                            .document(val)
+                                            .get()
+                                            .then((value) {
+                                          var data = value.data;
+                                          var man =
+                                              json.decode(data["questions"]);
+                                          print(man);
+                                          for (int i = 0;
+                                              i < (data["questions"]).length;
+                                              i++) {
+                                            print(
+                                              man["questions"][i]["answer"],
+                                            );
+                                            print(
+                                              man["questions"][i]
+                                                  ["question_statement"],
+                                            );
+                                            print(
+                                                man["questions"][i]["options"]);
+                                            questions.add(QuestionModel(
+                                                answer: man["questions"][i]
+                                                    ["answer"],
+                                                question: man["questions"][i]
+                                                    ["question_statement"],
+                                                options: man["questions"][i]
+                                                    ["options"]));
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (_) => QuizzScreen(
+                                                        questions)));
+                                          }
+                                        });
+                                      },
+                                    )),
                               )
                             ],
                           ),

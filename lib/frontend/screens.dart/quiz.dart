@@ -139,7 +139,7 @@ class _QuizzScreenState extends State<QuizzScreen> {
                                 i < widget.questions[index].options.length;
                                 i++)
                               Padding(
-                                padding: const EdgeInsets.only(top: 50.0),
+                                padding: const EdgeInsets.only(top: 30.0),
                                 child: GestureDetector(
                                   onTap: !answered
                                       ? () {
@@ -207,7 +207,10 @@ class _QuizzScreenState extends State<QuizzScreen> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    ResultScreen(score)));
+                                                    ResultScreen(
+                                                        score,
+                                                        widget.questions
+                                                            .length)));
                                       } else {
                                         _controller.nextPage(
                                             duration:
