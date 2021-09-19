@@ -344,13 +344,21 @@ class _ScanDocumentState extends State<ScanDocument> {
                                   filename: images[i].toString()),
                             }));
                     print("Classification: " + response.toString());
+
                     var data = json.decode(response.toString());
-                    for (int i = 0; i < (data[0]["questions"]).length; i++) {
+                    print(data["questions"].length);
+                    for (int i = 0; i < (data["questions"]).length; i++) {
+                      print(
+                        data["questions"][i]["answer"],
+                      );
+                      print(
+                        data["questions"][i]["question_statement"],
+                      );
+                      print(data["questions"][i]["options"]);
                       questions.add(QuestionModel(
-                          answer: data[0]["questions"][i]["answers"],
-                          question: data[0]["questions"][i]
-                              ["question_statement"],
-                          options: data[0]["questions"][i]["options"]));
+                          answer: data["questions"][i],
+                          question: data["questions"][i],
+                          options: data["questions"][i]));
                     }
                     print(questions);
                   }

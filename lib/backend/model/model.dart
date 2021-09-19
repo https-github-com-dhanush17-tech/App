@@ -3,20 +3,16 @@
 class QuestionModel {
   final String question;
   final String answer;
-  final List<String> options;
+  final options;
 
   QuestionModel({this.question, this.answer, this.options});
 
   QuestionModel.fromJson(Map<String, dynamic> json)
-      : answer = json["questions"]["answer"],
-        question = json["questions"]["question_statement"],
-        options = json["questions"]["options"];
+      : answer = json["answer"],
+        question = json["question_statement"],
+        options = json["options"];
 
   Map<String, dynamic> toJson() {
-    return {
-      'answer': answer,
-      'question': question,
-      "options":options
-    };
+    return {'answer': answer, 'question': question, "options": options};
   }
 }

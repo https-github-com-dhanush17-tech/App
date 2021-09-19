@@ -16,7 +16,7 @@ Widget questionWidget(
           ),
         ),
       ),
-      for (int i = 0; i < questionModel.options!.length; i++)
+      // for (int i = 0; i < questionModel.options!.length; i++)
         Container(
           width: double.infinity,
           height: 50.0,
@@ -27,7 +27,7 @@ Widget questionWidget(
             ),
             fillColor: Colors.pink,
             onPressed: function,
-            child: Text(questionModel.options!.toList()[i]),
+            child: Text("questionModel.options!.toList()[i]"),
           ),
         )
     ],
