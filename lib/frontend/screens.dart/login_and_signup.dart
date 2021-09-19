@@ -212,7 +212,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
           alignment: Alignment.centerLeft,
           child: Padding(
             padding: const EdgeInsets.only(left: 20.0),
-            child: Text("Let's Play Quizlet ,",
+            child: Text("Let's Play QuizIt ,",
                 style: GoogleFonts.poppins(
                   fontSize: 27,
                   color: secondaryBackgroundColor,
