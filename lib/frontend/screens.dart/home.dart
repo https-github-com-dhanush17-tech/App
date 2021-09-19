@@ -236,7 +236,7 @@ class _HomeState extends State<Home> {
                                       i < (data["questions"]).length;
                                       i++) {
                                     print(
-                                      man[i]["answer"],
+                                      man["questions"][i]["answer"],
                                     );
                                     print(
                                       man["questions"][i]["question_statement"],

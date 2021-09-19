@@ -123,172 +123,176 @@ class _QuizzScreenState extends State<QuizzScreen> {
                 ),
                 Align(
                     alignment: Alignment.bottomCenter,
-                    child: Container(
-                      height: MediaQuery.of(context).size.height / 1.48,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20)),
-                          color: Colors.white),
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            top: 0, left: 20.0, right: 20),
-                        child: Column(children: [
-                          for (int i = 0;
-                              i < widget.questions[index].options.length;
-                              i++)
-                            Padding(
-                              padding: const EdgeInsets.only(top: 50.0),
-                              child: GestureDetector(
-                                onTap: !answered
-                                    ? () {
-                                        if (widget
-                                                .questions[index].answerIndex ==
-                                            i) {
-                                          score++;
-                                          print("yes");
-                                        } else {
-                                          print("no");
+                    child: SingleChildScrollView(
+                      child: Container(
+                        height: MediaQuery.of(context).size.height / 1.48,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20)),
+                            color: Colors.white),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 0, left: 20.0, right: 20),
+                          child: Column(children: [
+                            for (int i = 0;
+                                i < widget.questions[index].options.length;
+                                i++)
+                              Padding(
+                                padding: const EdgeInsets.only(top: 50.0),
+                                child: GestureDetector(
+                                  onTap: !answered
+                                      ? () {
+                                          if (widget.questions[index]
+                                                  .answerIndex ==
+                                              i) {
+                                            score++;
+                                            print("yes");
+                                          } else {
+                                            print("no");
+                                          }
+                                          setState(() {
+                                            btnPressed = true;
+                                            answered = true;
+                                          });
                                         }
-                                        setState(() {
-                                          btnPressed = true;
-                                          answered = true;
-                                        });
-                                      }
-                                    : null,
-                                child: Container(
-                                  width: double.infinity,
-                                  height: 65,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: btnPressed
-                                        ? widget.questions[index].answerIndex ==
-                                                i
-                                            ? secondaryBackgroundColor
-                                                .withOpacity(0.5)
-                                            : Colors.red.withOpacity(0.5)
-                                        : Colors.white,
-                                  ),
-                                  child: Padding(
-                                      padding: EdgeInsets.only(
-                                        left: 15,
-                                      ),
-                                      child: Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          widget.questions[index].options[i],
-                                          style: GoogleFonts.poppins(
-                                              color: btnPressed
-                                                  ? widget.questions[index]
-                                                              .options ==
-                                                          selected_index
-                                                      ? Colors.white
-                                                      : Colors.black
-                                                  : Colors.black,
-                                              fontSize: 17,
-                                              fontWeight: FontWeight.w400),
+                                      : null,
+                                  child: Container(
+                                    width: double.infinity,
+                                    height: 65,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      color: btnPressed
+                                          ? widget.questions[index]
+                                                      .answerIndex ==
+                                                  i
+                                              ? secondaryBackgroundColor
+                                                  .withOpacity(0.5)
+                                              : Colors.red.withOpacity(0.5)
+                                          : Colors.white,
+                                    ),
+                                    child: Padding(
+                                        padding: EdgeInsets.only(
+                                          left: 15,
                                         ),
-                                      )),
+                                        child: Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            "${widget.questions[index].options[i][0].toUpperCase()}${widget.questions[index].options[i].substring(1)}",
+                                            style: GoogleFonts.poppins(
+                                                color: btnPressed
+                                                    ? widget.questions[index]
+                                                                .options ==
+                                                            selected_index
+                                                        ? Colors.white
+                                                        : Colors.black
+                                                    : Colors.black,
+                                                fontSize: 17,
+                                                fontWeight: FontWeight.w400),
+                                          ),
+                                        )),
+                                  ),
                                 ),
                               ),
-                            ),
-                          Spacer(),
-                          Padding(
-                              padding: const EdgeInsets.only(bottom: 20.0),
-                              child: Align(
-                                alignment: Alignment.bottomCenter,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    if (_controller.page?.toInt() ==
-                                        widget.questions.length - 1) {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ResultScreen(score)));
-                                    } else {
-                                      _controller.nextPage(
-                                          duration: Duration(milliseconds: 250),
-                                          curve: Curves.easeIn);
+                            Spacer(),
+                            Padding(
+                                padding: const EdgeInsets.only(bottom: 20.0),
+                                child: Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      if (_controller.page?.toInt() ==
+                                          widget.questions.length - 1) {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ResultScreen(score)));
+                                      } else {
+                                        _controller.nextPage(
+                                            duration:
+                                                Duration(milliseconds: 250),
+                                            curve: Curves.easeIn);
 
-                                      setState(() {
-                                        btnPressed = false;
-                                      });
-                                    }
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 0.0, right: 0),
-                                    child: Container(
-                                      width: double.infinity,
-                                      height: 60,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(17),
-                                          color: secondaryBackgroundColor),
-                                      child: Center(
-                                        child: Text(
-                                          btnText,
-                                          style: GoogleFonts.poppins(
-                                              color: Colors.white,
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.w500),
+                                        setState(() {
+                                          btnPressed = false;
+                                        });
+                                      }
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 0.0, right: 0),
+                                      child: Container(
+                                        width: double.infinity,
+                                        height: 60,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(17),
+                                            color: secondaryBackgroundColor),
+                                        child: Center(
+                                          child: Text(
+                                            btnText,
+                                            style: GoogleFonts.poppins(
+                                                color: Colors.white,
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w500),
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              )
-                              // SizedBox(
-                              //   height: 50,
-                              // ),
-                              // Container(
-                              //   width: double.infinity,
-                              //   height: 65,
-                              //   decoration: BoxDecoration(
-                              //       borderRadius: BorderRadius.circular(20),
-                              //       color: secondaryBackgroundColor),
-                              //   child: Padding(
-                              //       padding: EdgeInsets.only(
-                              //         left: 15,
-                              //       ),
-                              //       child: Align(
-                              //         alignment: Alignment.centerLeft,
-                              //         child: Text(
-                              //           "Cell Wall",
-                              //           style: GoogleFonts.poppins(
-                              //               color: Colors.white,
-                              //               fontSize: 17,
-                              //               fontWeight: FontWeight.w400),
-                              //         ),
-                              //       )),
-                              // ),
-                              // SizedBox(
-                              //   height: 50,
-                              // ),
-                              // Container(
-                              //   width: double.infinity,
-                              //   height: 65,
-                              //   decoration: BoxDecoration(
-                              //     borderRadius: BorderRadius.circular(20),
-                              //   ),
-                              //   child: Padding(
-                              //       padding: EdgeInsets.only(
-                              //         left: 15,
-                              //       ),
-                              //       child: Align(
-                              //         alignment: Alignment.centerLeft,
-                              //         child: Text(
-                              //           "Lyosome",
-                              //           style: GoogleFonts.poppins(
-                              //               color: Colors.black,
-                              //               fontSize: 17,
-                              //               fontWeight: FontWeight.w400),
-                              //         ),
-                              //       )),
-                              // ),
-                              )
-                        ]),
+                                )
+                                // SizedBox(
+                                //   height: 50,
+                                // ),
+                                // Container(
+                                //   width: double.infinity,
+                                //   height: 65,
+                                //   decoration: BoxDecoration(
+                                //       borderRadius: BorderRadius.circular(20),
+                                //       color: secondaryBackgroundColor),
+                                //   child: Padding(
+                                //       padding: EdgeInsets.only(
+                                //         left: 15,
+                                //       ),
+                                //       child: Align(
+                                //         alignment: Alignment.centerLeft,
+                                //         child: Text(
+                                //           "Cell Wall",
+                                //           style: GoogleFonts.poppins(
+                                //               color: Colors.white,
+                                //               fontSize: 17,
+                                //               fontWeight: FontWeight.w400),
+                                //         ),
+                                //       )),
+                                // ),
+                                // SizedBox(
+                                //   height: 50,
+                                // ),
+                                // Container(
+                                //   width: double.infinity,
+                                //   height: 65,
+                                //   decoration: BoxDecoration(
+                                //     borderRadius: BorderRadius.circular(20),
+                                //   ),
+                                //   child: Padding(
+                                //       padding: EdgeInsets.only(
+                                //         left: 15,
+                                //       ),
+                                //       child: Align(
+                                //         alignment: Alignment.centerLeft,
+                                //         child: Text(
+                                //           "Lyosome",
+                                //           style: GoogleFonts.poppins(
+                                //               color: Colors.black,
+                                //               fontSize: 17,
+                                //               fontWeight: FontWeight.w400),
+                                //         ),
+                                //       )),
+                                // ),
+                                )
+                          ]),
+                        ),
                       ),
                     ))
               ],

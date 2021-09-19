@@ -18,6 +18,15 @@ class ResultScreen extends StatefulWidget {
 
 class _ResultScreenState extends State<ResultScreen> {
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    setState(() {
+      questions = [];
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -201,7 +210,8 @@ class _ResultScreenState extends State<ResultScreen> {
                                         Firestore.instance
                                             .collection("quiz")
                                             .add({
-                                          "questions": json.encode(questions),
+                                          "questions": json
+                                              .encode({"questions": questions}),
                                           "name": _controller.text,
                                           "date": DateTime.now(),
                                         }).then((value) {

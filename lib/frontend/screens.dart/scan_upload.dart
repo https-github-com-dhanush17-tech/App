@@ -363,7 +363,8 @@ class _ScanDocumentState extends State<ScanDocument> {
                           context,
                           MaterialPageRoute(
                               builder: (_) => QuizzScreen(questions)));
-                    }
+                    
+                     }
                   }
                   setState(() {
                     isdialogseen = false;
