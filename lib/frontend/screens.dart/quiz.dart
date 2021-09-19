@@ -1,4 +1,7 @@
+//@dart=2.9
+
 import 'package:flutter/material.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pinnacle/appcolor.dart';
 import 'package:pinnacle/backend/data/question_model.dart';
@@ -8,8 +11,8 @@ import 'package:pinnacle/frontend/screens.dart/score.dart';
 import '../../constants.dart';
 
 class QuizzScreen extends StatefulWidget {
-  List model;
-  QuizzScreen(this.model);
+  List questions;
+  QuizzScreen(this.questions);
 
   @override
   _QuizzScreenState createState() => _QuizzScreenState();
@@ -19,9 +22,10 @@ class _QuizzScreenState extends State<QuizzScreen> {
   int question_pos = 0;
   int score = 0;
   bool btnPressed = false;
-  PageController? _controller;
+  PageController _controller;
   String btnText = "Next Question";
   bool answered = false;
+  int selected_index;
 
   @override
   void initState() {
@@ -37,9 +41,9 @@ class _QuizzScreenState extends State<QuizzScreen> {
       body: Container(
         height: MediaQuery.of(context).size.height,
         child: PageView.builder(
-          controller: _controller!,
+          controller: _controller,
           onPageChanged: (page) {
-            if (page == widget.model.length - 1) {
+            if (page == widget.questions.length - 1) {
               setState(() {
                 btnText = "See Results";
               });
@@ -105,7 +109,7 @@ class _QuizzScreenState extends State<QuizzScreen> {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 15.0),
                             child: Text(
-                              "${index + 1} . ${widget.model[index].question}",
+                              "${index + 1} . ${widget.questions[index].question}",
                               style: GoogleFonts.poppins(
                                   color: Colors.black,
                                   fontSize: 15,
@@ -131,17 +135,16 @@ class _QuizzScreenState extends State<QuizzScreen> {
                             top: 0, left: 20.0, right: 20),
                         child: Column(children: [
                           for (int i = 0;
-                              i < widget.model[index].answers!.length;
+                              i < widget.questions[index].options.length;
                               i++)
                             Padding(
                               padding: const EdgeInsets.only(top: 50.0),
                               child: GestureDetector(
                                 onTap: !answered
                                     ? () {
-                                        if (widget.model[index]
-                                            .answers!
-                                            .values
-                                            .toList()[i]) {
+                                        if (widget
+                                                .questions[index].answerIndex ==
+                                            i) {
                                           score++;
                                           print("yes");
                                         } else {
@@ -159,11 +162,10 @@ class _QuizzScreenState extends State<QuizzScreen> {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(20),
                                     color: btnPressed
-                                        ? widget.model[index]
-                                                .answers!
-                                                .values
-                                                .toList()[i]
+                                        ? widget.questions[index].answerIndex ==
+                                                i
                                             ? secondaryBackgroundColor
+                                                .withOpacity(0.5)
                                             : Colors.red.withOpacity(0.5)
                                         : Colors.white,
                                   ),
@@ -174,16 +176,12 @@ class _QuizzScreenState extends State<QuizzScreen> {
                                       child: Align(
                                         alignment: Alignment.centerLeft,
                                         child: Text(
-                                          widget.model[index]
-                                              .answers!
-                                              .keys
-                                              .toList()[i],
+                                          widget.questions[index].options[i],
                                           style: GoogleFonts.poppins(
                                               color: btnPressed
-                                                  ? widget.model[index]
-                                                          .answers!
-                                                          .values
-                                                          .toList()[i]
+                                                  ? widget.questions[index]
+                                                              .options ==
+                                                          selected_index
                                                       ? Colors.white
                                                       : Colors.black
                                                   : Colors.black,
@@ -201,15 +199,15 @@ class _QuizzScreenState extends State<QuizzScreen> {
                                 alignment: Alignment.bottomCenter,
                                 child: GestureDetector(
                                   onTap: () {
-                                    if (_controller!.page?.toInt() ==
-                                        widget.model.length - 1) {
+                                    if (_controller.page?.toInt() ==
+                                        widget.questions.length - 1) {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   ResultScreen(score)));
                                     } else {
-                                      _controller!.nextPage(
+                                      _controller.nextPage(
                                           duration: Duration(milliseconds: 250),
                                           curve: Curves.easeIn);
 
@@ -296,7 +294,7 @@ class _QuizzScreenState extends State<QuizzScreen> {
               ],
             );
           },
-          itemCount: widget.model.length,
+          itemCount: widget.questions.length,
         ),
       ),
     );

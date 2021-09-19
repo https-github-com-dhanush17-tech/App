@@ -1,9 +1,12 @@
+import 'dart:convert';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pinnacle/constants.dart';
-
-import 'home.dart';
+import 'package:pinnacle/frontend/screens.dart/home.dart';
+import 'package:pinnacle/frontend/screens.dart/scan_upload.dart';
 
 class ResultScreen extends StatefulWidget {
   int score;
@@ -17,6 +20,7 @@ class _ResultScreenState extends State<ResultScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: secondaryBackgroundColor,
       body: Column(
         children: [
@@ -143,6 +147,116 @@ class _ResultScreenState extends State<ResultScreen> {
                       ),
                     )
                   ],
+                ),
+                GestureDetector(
+                  onTap: () {
+                    showDialog(
+                        context: context,
+                        builder: (ctx) {
+                          TextEditingController _controller =
+                              TextEditingController();
+                          return Dialog(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15)),
+                              child: Container(
+                                height: 180,
+                                width: MediaQuery.of(context).size.width - 20,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  gradient: LinearGradient(
+                                      colors: [
+                                        Color(4278830841),
+                                        Color(4284720383)
+                                      ],
+                                      begin: Alignment.topRight,
+                                      end: Alignment.bottomLeft),
+                                ),
+                                child: Column(
+                                  children: [
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(
+                                      "Name of the quiz",
+                                      style: GoogleFonts.poppins(
+                                          color: Colors.white,
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    SizedBox(
+                                      height: 0,
+                                    ),
+                                    Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 20.0, right: 20),
+                                        child: TextField(
+                                          controller: _controller,
+                                          style: GoogleFonts.poppins(),
+                                        )),
+                                    SizedBox(
+                                      height: 30,
+                                    ),
+                                    GestureDetector(
+                                      onTap: () async {
+                                        Firestore.instance
+                                            .collection("quiz")
+                                            .add({
+                                          "questions": json.encode(questions),
+                                          "name": _controller.text,
+                                          "date": DateTime.now(),
+                                        }).then((value) {
+                                          Navigator.pop(context);
+                                        });
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 20.0, right: 20),
+                                        child: Container(
+                                            width: double.infinity,
+                                            height: 40,
+                                            decoration: BoxDecoration(
+                                              color: Color(4279980225),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            child: Center(
+                                              child: Text("Done",
+                                                  style: GoogleFonts.poppins(
+                                                    fontSize: 17,
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.w500,
+                                                  )),
+                                            )),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ));
+                        });
+                  },
+                  child: Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          left: 20.0, right: 20, bottom: 10),
+                      child: Container(
+                        width: 180,
+                        height: 45,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(11),
+                            color: Colors.white.withOpacity(0.3)),
+                        child: Center(
+                          child: Text(
+                            "Make Public!",
+                            style: GoogleFonts.poppins(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),

@@ -338,7 +338,7 @@ class _ScanDocumentState extends State<ScanDocument> {
                   for (int i = 0; i < images.length; i++) {
                     Dio dio = new Dio();
                     var response =
-                        await dio.post("http://143.244.149.151/importImages",
+                        await dio.post("http://143.244.149.151:80/importImages",
                             data: FormData.fromMap({
                               'file': MultipartFile.fromFileSync(images[i].path,
                                   filename: images[i].toString()),
@@ -356,11 +356,14 @@ class _ScanDocumentState extends State<ScanDocument> {
                       );
                       print(data["questions"][i]["options"]);
                       questions.add(QuestionModel(
-                          answer: data["questions"][i],
-                          question: data["questions"][i],
-                          options: data["questions"][i]));
+                          answer: data["questions"][i]["answer"],
+                          question: data["questions"][i]["question_statement"],
+                          options: data["questions"][i]["options"]));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => QuizzScreen(questions)));
                     }
-                    print(questions);
                   }
                   setState(() {
                     isdialogseen = false;

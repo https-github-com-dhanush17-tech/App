@@ -16,10 +16,7 @@ class QuestionModel {
     }
   }
 
-  QuestionModel.fromJson(Map<String, dynamic> json)
-      : answer = json["answer"],
-        question = json["question_statement"],
-        options = json["options"];
+
 
   Map<String, dynamic> toJson() {
     return {
