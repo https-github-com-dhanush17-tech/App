@@ -1,5 +1,22 @@
+//@dart=2.9
+
 class QuestionModel {
-  String? question;
-  Map<String, bool>? answers;
-  QuestionModel(this.question, this.answers);
+  final String question;
+  final String answer;
+  final List<String> options;
+
+  QuestionModel({this.question, this.answer, this.options});
+
+  QuestionModel.fromJson(Map<String, dynamic> json)
+      : answer = json["questions"]["answer"],
+        question = json["questions"]["question_statement"],
+        options = json["questions"]["options"];
+
+  Map<String, dynamic> toJson() {
+    return {
+      'answer': answer,
+      'question': question,
+      "options":options
+    };
+  }
 }
